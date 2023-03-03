@@ -1,0 +1,14 @@
+version: '3'
+services:
+  crawler:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      DB_HOST: host.docker.internal
+      DB_USER: root
+      DB_PASSWORD: 123456
+      DB_NAME: fragrantica_db
+    ports:
+      - "5000:5000"
+    container_name: fragrantica_crawler
