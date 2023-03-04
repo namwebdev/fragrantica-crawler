@@ -63,8 +63,10 @@ export const crawl = async (links: string[]) => {
             DOM = await page.$(
                 ".cell.small-7.small-offset-1.medium-12 > a:nth-of-type(3)",
             );
-            const link = await DOM.evaluate(el => el.getAttribute("href"));
-            if (link) brand.link = link;
+            if (DOM) {
+                const link = await DOM.evaluate(el => el.getAttribute("href"));
+                if (link) brand.link = link;
+            }
 
             await page.waitForSelector(
                 ".cell.text-left.prefumeHbox.px1-box-shadow",
@@ -103,10 +105,9 @@ export const crawl = async (links: string[]) => {
             }
             const res = data.map(i => AppDataSource.manager.create(Perfume, i));
 
+            browser.close();
             await AppDataSource.manager.save(res);
             console.log(`Crawl success: ${res.length} - ${brand.name}`);
-
-            browser.close();
 
             resolve();
         } catch (err) {
