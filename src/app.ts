@@ -28,8 +28,8 @@ AppDataSource.initialize()
             })
             .on("end", () => {
                 links = res.map(i => i["﻿link"]);
-                // cron.schedule("*/3 * * * *", () => crawl(links));
-                crawl(links);
+                cron.schedule("*/3 * * * *", () => crawl(links));
+                // crawl(links);
             });
     })
     .catch(error => console.log(error));

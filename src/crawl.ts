@@ -46,7 +46,7 @@ export const crawl = async (links: string[]) => {
             let DOM = (await page.$(".cell.text-center.dname > h1")) as any;
             const name = await DOM.evaluate(el => el.textContent);
             if (!name) reject("Cannot DOM name");
-            brand.name = name;
+            brand.name = name.replace(" perfumes and colognes", "");
 
             DOM = (await page.$(".cell.small-4.medium-12 > img")) as any;
             const image = await DOM.evaluate(el => el.getAttribute("src"));
@@ -81,8 +81,6 @@ export const crawl = async (links: string[]) => {
             await AppDataSource.manager.save(brand);
 
             for (let i = 0; i < listPerfume.length; i++) {
-                // promiseArray.push(
-                //     new Promise<void>(async (resolve, reject) => {
                 const perfume = {} as any;
                 let perDOM = (await listPerfume[i].$("h3 > a")) as any;
                 const perfumeName = await perDOM.evaluate(el => el.textContent);
@@ -106,7 +104,7 @@ export const crawl = async (links: string[]) => {
             const res = data.map(i => AppDataSource.manager.create(Perfume, i));
 
             await AppDataSource.manager.save(res);
-            console.log(`Crawl success: ${res.length}`);
+            console.log(`Crawl success: ${res.length} - ${brand.name}`);
 
             browser.close();
 
