@@ -5,6 +5,7 @@ import csv from "csv-parser";
 import { crawl } from "./crawl";
 import express from "express";
 import cron from "node-cron";
+import { perfumeCrawler } from "./crawlers/perfume";
 
 dotenv.config();
 
@@ -19,17 +20,6 @@ AppDataSource.initialize()
         app.use(express.json());
         app.listen(port, () => console.log(`Now running on port ${port}`));
 
-        const res = [];
-        let links: string[] = [];
-        fs.createReadStream("data.csv")
-            .pipe(csv({}))
-            .on("data", data => {
-                res.push(data);
-            })
-            .on("end", () => {
-                links = res.map(i => i["﻿link"]);
-                cron.schedule("*/4 * * * *", () => crawl(links));
-                // crawl(links);
-            });
+        perfumeCrawler();
     })
     .catch(error => console.log(error));

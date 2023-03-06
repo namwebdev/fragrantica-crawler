@@ -6,8 +6,11 @@ import {
     JoinColumn,
     CreateDateColumn,
     UpdateDateColumn,
+    OneToMany,
 } from "typeorm";
 import { Brand } from "./Brand";
+import { PerfumeAccord } from "./Perfume_Accord";
+import { PerfumeNote } from "./Perfume_Note";
 
 @Entity()
 export class Perfume {
@@ -32,4 +35,10 @@ export class Perfume {
 
     @UpdateDateColumn()
     updated_at: Date;
+
+    @OneToMany(() => PerfumeAccord, perfume_accord => perfume_accord.perfume)
+    accords: PerfumeAccord[];
+
+    @OneToMany(() => PerfumeNote, note => note.perfume)
+    notes: PerfumeNote[];
 }
