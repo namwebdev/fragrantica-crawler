@@ -3,6 +3,7 @@ import { Brand } from "./entities/Brand";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import * as dotenv from "dotenv";
+import { BrandId } from "./entities/BrandId";
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME,
     synchronize: true,
     logging: false,
-    entities: [Brand, Perfume],
+    entities: [Brand, Perfume, BrandId],
     migrations: [],
     subscribers: [],
 });

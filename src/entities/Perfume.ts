@@ -14,14 +14,17 @@ export class Perfume {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: "varchar", nullable: true })
+    @Column({ type: "varchar" })
     name: string;
 
-    @Column({ type: "varchar", nullable: true })
+    @Column({ type: "varchar" })
     image: string;
 
-    @Column({ nullable: false, default: null })
+    @Column({ default: null, nullable: true })
     year: string;
+
+    @Column()
+    link: string;
 
     @ManyToOne(() => Brand, brand => brand.perfumes)
     @JoinColumn({ name: "brand_id" })

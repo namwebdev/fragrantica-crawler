@@ -2,7 +2,7 @@ import { AppDataSource } from "./data-source";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import csv from "csv-parser";
-import { crawl } from "./crawl";
+import { crawl, crawlPerfumeLinks } from "./crawl";
 import express from "express";
 import cron from "node-cron";
 
@@ -19,17 +19,18 @@ AppDataSource.initialize()
         app.use(express.json());
         app.listen(port, () => console.log(`Now running on port ${port}`));
 
-        const res = [];
-        let links: string[] = [];
-        fs.createReadStream("data.csv")
-            .pipe(csv({}))
-            .on("data", data => {
-                res.push(data);
-            })
-            .on("end", () => {
-                links = res.map(i => i["﻿link"]);
-                cron.schedule("*/4 * * * *", () => crawl(links));
-                // crawl(links);
-            });
+        // const res = [];
+        // let links: string[] = [];
+        // fs.createReadStream("data.csv")
+        //     .pipe(csv({}))
+        //     .on("data", data => {
+        //         res.push(data);
+        //     })
+        //     .on("end", () => {
+        //         links = res.map(i => i["﻿link"]);
+        //         cron.schedule("*/4 * * * *", () => crawl(links));
+        //     });
+        crawlPerfumeLinks();
+        // cron.schedule("*/4 * * * *", () => crawlPerfumeLinks());
     })
     .catch(error => console.log(error));
