@@ -84,9 +84,15 @@ export const crawl = async (links: string[]) => {
 
             for (let i = 0; i < listPerfume.length; i++) {
                 const perfume = {} as any;
+
                 let perDOM = (await listPerfume[i].$("h3 > a")) as any;
                 const perfumeName = await perDOM.evaluate(el => el.textContent);
                 perfume.name = perfumeName;
+
+                const link = await perDOM.evaluate(el =>
+                    el.getAttribute("href"),
+                );
+                perfume.link = link;
 
                 perDOM = await listPerfume[i].$("img:nth-of-type(1)");
                 const perfumeImg = await perDOM.evaluate(el =>

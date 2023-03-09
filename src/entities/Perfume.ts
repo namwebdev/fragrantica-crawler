@@ -23,6 +23,9 @@ export class Perfume {
     @Column({ nullable: false, default: null })
     year: string;
 
+    @Column()
+    link: string;
+
     @ManyToOne(() => Brand, brand => brand.perfumes)
     @JoinColumn({ name: "brand_id" })
     brand: Brand;
