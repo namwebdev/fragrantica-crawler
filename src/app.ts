@@ -30,7 +30,7 @@ AppDataSource.initialize()
         //         links = res.map(i => i["﻿link"]);
         //         cron.schedule("*/4 * * * *", () => crawl(links));
         //     });
-        crawlPerfumeLinks();
-        // cron.schedule("*/4 * * * *", () => crawlPerfumeLinks());
+        // crawlPerfumeLinks();
+        cron.schedule("*/3 * * * *", () => crawlPerfumeLinks());
     })
     .catch(error => console.log(error));

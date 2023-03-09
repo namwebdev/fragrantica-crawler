@@ -118,7 +118,7 @@ export const crawl = async (links: string[]) => {
 };
 
 export const crawlPerfumeLinks = async () => {
-    let brandId = 1;
+    let brandId = 2;
     const brand_id = await AppDataSource.getRepository(BrandId).findOne({
         where: {},
     });
@@ -132,6 +132,8 @@ export const crawlPerfumeLinks = async () => {
         console.error("Cannot get brand");
         return;
     }
+    console.log("Start Crawl");
+
     const source = brand.source;
 
     const browser = await puppeteer.launch({
@@ -140,7 +142,7 @@ export const crawlPerfumeLinks = async () => {
     });
     const page = await browser.newPage();
     await page.goto(source, {
-        waitUntil: "networkidle2",
+        waitUntil: "domcontentloaded",
     });
 
     await page.evaluate(() => {
@@ -158,7 +160,6 @@ export const crawlPerfumeLinks = async () => {
     }
 
     let error = false;
-    const promiseArr: Promise<void>[] = [];
     for (let i = 0; i < listPerfume.length; i++) {
         let perDOM = (await listPerfume[i].$("h3 > a")) as any;
         const link = await perDOM.evaluate(el => el.getAttribute("href"));
@@ -173,19 +174,19 @@ export const crawlPerfumeLinks = async () => {
             error = true;
             break;
         }
-        promiseArr.push(updatePerfumeLink(img, link, name));
+        await updatePerfumeLink(img, link, name);
     }
     browser.close();
     if (error) {
         console.error("Error");
         return;
     }
-    await Promise.all(promiseArr);
     await AppDataSource.createQueryBuilder()
         .update(BrandId)
         .set({ id: brandId + 1 })
         .where({ id: brandId })
         .execute();
+
     console.log(`Success - ${brandId} - ${listPerfume.length}`);
 };
 
@@ -203,9 +204,11 @@ const updatePerfumeLink = (
                     link: `https://www.fragrantica.com${link}`,
                 })
                 .where({ image })
-                .execute();
-            console.log(name);
-            resolve();
+                .execute()
+                .then(() => {
+                    console.log(name);
+                    resolve();
+                });
         } catch (e) {
             reject(e);
         }
