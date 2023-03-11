@@ -6,12 +6,15 @@ import { BaseModel } from "./utils/BaseModel.entities";
 export class Accord extends BaseModel {
     @Column()
     name: string;
-    
-    @Column()
+
+    @Column({ nullable: true, default: null })
     name_vn: string;
 
-    @Column()
-    image: string;
+    @Column({ nullable: true, default: null })
+    color: string;
+
+    @Column({ nullable: true, default: null })
+    background_color: string;
 
     @OneToMany(() => PerfumeAccord, perfume => perfume.perfume)
     perfumes: PerfumeAccord[];

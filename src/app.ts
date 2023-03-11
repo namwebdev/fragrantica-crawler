@@ -5,7 +5,7 @@ import csv from "csv-parser";
 import { crawl } from "./crawl";
 import express from "express";
 import cron from "node-cron";
-import { perfumeCrawler } from "./crawlers/perfume";
+import { perfumeDetailsCrawler } from "./crawlers/perfume";
 
 dotenv.config();
 
@@ -20,6 +20,6 @@ AppDataSource.initialize()
         app.use(express.json());
         app.listen(port, () => console.log(`Now running on port ${port}`));
 
-        perfumeCrawler();
+        perfumeDetailsCrawler(3);
     })
     .catch(error => console.log(error));

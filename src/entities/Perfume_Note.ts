@@ -1,17 +1,20 @@
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
-import { Note } from "./note";
-import { Perfume } from "./Perfume";
 import { BaseModel } from "./utils/BaseModel.entities";
+import { Note } from "./Note";
+import { Perfume } from "./Perfume";
 
+export enum note_scent_layers {
+    top_note,
+    middle_note,
+    base_note,
+}
 
+export type NoteScentLayer = keyof typeof note_scent_layers;
 
 @Entity()
 export class PerfumeNote extends BaseModel {
     @Column()
-    name: string;
-
-    @Column()
-    image: string;
+    scent_layer: note_scent_layers;
 
     @ManyToOne(() => Perfume, perfume => perfume.notes)
     @JoinColumn({ name: "perfume_id" })

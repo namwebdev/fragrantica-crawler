@@ -1,10 +1,10 @@
-import { Perfume } from "./entities/Perfume";
-import { Brand } from "./entities/Brand";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import * as dotenv from "dotenv";
+import { Perfume } from "./entities/Perfume";
+import { Brand } from "./entities/Brand";
 import { Accord } from "./entities/Accord";
-import { Note } from "./entities/note";
+import { Note } from "./entities/Note";
 import { PerfumeAccord } from "./entities/Perfume_Accord";
 import { PerfumeNote } from "./entities/Perfume_Note";
 
