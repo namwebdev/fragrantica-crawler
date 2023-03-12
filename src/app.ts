@@ -18,8 +18,8 @@ AppDataSource.initialize()
         console.log("Connected to DB");
 
         app.use(express.json());
-        app.listen(port, () => console.log(`Now running on port ${port}`));
+        app.listen(port, () => console.log(`Now running on port ${port}\n`));
 
-        perfumeDetailsCrawler(3);
+        perfumeDetailsCrawler(1);
     })
     .catch(error => console.log(error));

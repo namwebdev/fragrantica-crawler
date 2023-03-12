@@ -4,6 +4,7 @@ import { AppDataSource } from "./../data-source";
 import { accordsCrawler } from "./accords";
 import { notesCrawler } from "./notes";
 import { perfumeWeatherCrawler } from "./perfume_weather";
+import { perfumeLongevityCrawler } from "./perfume_longevity";
 
 export const perfumeDetailsCrawler = async (
     _perfumeId: number,
@@ -35,10 +36,10 @@ export const perfumeDetailsCrawler = async (
                 window.scrollTo(0, document.body.scrollHeight),
             );
 
-            // await accordsCrawler(page, perfume);
-            // console.log("\n");
-            // await notesCrawler(page, perfume);
+            await accordsCrawler(page, perfume);
+            await notesCrawler(page, perfume);
             await perfumeWeatherCrawler(page, perfume);
+            await perfumeLongevityCrawler(page, perfume);
             resolve();
         } catch (err) {
             console.error(err);

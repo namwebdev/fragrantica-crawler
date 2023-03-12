@@ -38,15 +38,10 @@ export const perfumeWeatherCrawler = (
             const style = await _DOM.evaluate(e => e.getAttribute("style"));
             res[weatherType[i]] = getWeatherRate(style);
         }
-        // await AppDataSource.getRepository(PerfumeWeather).upsert(res, [
-        //     "perfume",
-        // ]);
-        await AppDataSource.createQueryBuilder()
-            .insert()
-            .into(PerfumeWeather)
-            .values(res)
-            .orIgnore()
-            .execute();
+        await AppDataSource.getRepository(PerfumeWeather).upsert(res, [
+            "perfume",
+        ]);
+        console.log(`Done Weather - perfume ${perfume.id}`);
         resolve();
     });
 };
