@@ -7,6 +7,7 @@ import { Accord } from "./entities/Accord";
 import { Note } from "./entities/Note";
 import { PerfumeAccord } from "./entities/Perfume_Accord";
 import { PerfumeNote } from "./entities/Perfume_Note";
+import { PerfumeWeather } from "./entities/Perfume_Weather";
 
 dotenv.config();
 
@@ -19,7 +20,15 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME,
     synchronize: true,
     logging: false,
-    entities: [Brand, Perfume, Accord, Note, PerfumeAccord, PerfumeNote],
+    entities: [
+        Brand,
+        Perfume,
+        Accord,
+        Note,
+        PerfumeAccord,
+        PerfumeNote,
+        PerfumeWeather,
+    ],
     migrations: [],
     subscribers: [],
 });
