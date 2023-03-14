@@ -30,6 +30,7 @@ export const crawl = async (links: string[]) => {
                 headless: false,
                 ignoreHTTPSErrors: true,
                 defaultViewport: { width: 1920, height: 1080 },
+                args: ["--disable-gpu"],
             });
             const page = await browser.newPage();
             await page.goto(targetUrl, {

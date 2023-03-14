@@ -7,6 +7,7 @@
         "start": "npm run serve",
         "build": "npm run build-ts",
         "serve": "node dist/app.js",
+        "dev": "npm run watch",
         "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
         "watch-node": "nodemon dist/app.js",
         "build-ts": "tsc",
@@ -25,7 +26,6 @@
     "license": "ISC",
     "dependencies": {
         "csv-parser": "^3.0.0",
-        "devtools-protocol": "^0.0.1112051",
         "dotenv": "^16.0.3",
         "express": "^4.16.2",
         "mysql2": "^2.2.5",
@@ -45,6 +45,7 @@
         "eslint-plugin-import": "2.27.5",
         "nodemon": "2.0.20",
         "prettier": "2.8.3",
-        "typescript": "4.9.4"
+        "typescript": "4.9.4",
+        "devtools-protocol": "^0.0.1112051"
     }
 }
