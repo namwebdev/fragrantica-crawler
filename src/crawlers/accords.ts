@@ -50,7 +50,6 @@ export const accordsCrawler = async (
                 })
                 .select(["id"])
                 .execute();
-            console.error(perfumeAccordExist);
             if (perfumeAccordExist?.length === 0) {
                 await AppDataSource.createQueryBuilder()
                     .insert()
