@@ -74,7 +74,7 @@ export const notesCrawler = async (
                         })
                         .select(["id"])
                         .execute();
-                if (perfumeNoteExist?.length !== 1) {
+                if (perfumeNoteExist?.length === 0) {
                     await AppDataSource.createQueryBuilder()
                         .insert()
                         .into(PerfumeNote)

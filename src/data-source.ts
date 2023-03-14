@@ -9,6 +9,8 @@ import { PerfumeAccord } from "./entities/Perfume_Accord";
 import { PerfumeNote } from "./entities/Perfume_Note";
 import { PerfumeWeather } from "./entities/Perfume_Weather";
 import { PerfumeLongevity } from "./entities/Perfume_Longevity";
+import { PerfumeSillage } from "./entities/Perfume_Sillage";
+import { PerfumeGender } from "./entities/Perfume_Gender";
 
 dotenv.config();
 
@@ -30,6 +32,8 @@ export const AppDataSource = new DataSource({
         PerfumeNote,
         PerfumeWeather,
         PerfumeLongevity,
+        PerfumeSillage,
+        PerfumeGender,
     ],
     migrations: [],
     subscribers: [],

@@ -17,7 +17,7 @@ export const accordsCrawler = async (
         );
         const accords = await DOM.$$(".cell.accord-box");
         if (!accords || accords.length === 0)
-            reject(`Cannot get list Accord ${perfume.id}`);
+            throw Error(`Cannot get list Accord ${perfume.id}`);
 
         for (let i = 0; i < accords.length; i++) {
             const _DOM = await accords[i].$(".accord-bar");
@@ -50,7 +50,8 @@ export const accordsCrawler = async (
                 })
                 .select(["id"])
                 .execute();
-            if (perfumeAccordExist?.length !== 1) {
+            console.error(perfumeAccordExist);
+            if (perfumeAccordExist?.length === 0) {
                 await AppDataSource.createQueryBuilder()
                     .insert()
                     .into(PerfumeAccord)
