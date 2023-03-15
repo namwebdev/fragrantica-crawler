@@ -13,12 +13,13 @@ enum sillageType {
 export const perfumeSillageCrawler = async (
     page: Page,
     perfume: Perfume,
+    idx: number,
 ): Promise<void> => {
     return new Promise(async (resolve, reject) => {
         const DOM = await page.$$(".cell.small-12.medium-6");
         if (!DOM.length) reject("Cannot DOM sillage step 1");
-
-        const _DOM = await DOM[3].$$(".grid-x.grid-margin-x");
+        const index = idx + 1;
+        const _DOM = await DOM[index].$$(".grid-x.grid-margin-x");
         if (!_DOM.length) reject("Cannot DOM sillage step 2");
 
         const res = {} as PerfumeSillage;

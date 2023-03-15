@@ -12,12 +12,13 @@ enum genderType {
 export const perfumeGenderCrawler = async (
     page: Page,
     perfume: Perfume,
+    idx: number,
 ): Promise<void> => {
     return new Promise<void>(async (resolve, reject) => {
         const DOM = await page.$$(".cell.small-12.medium-6");
         if (!DOM.length) reject("Cannot DOM sillage step 1");
 
-        const _DOM = await DOM[4].$$(".grid-x.grid-margin-x");
+        const _DOM = await DOM[idx + 1].$$(".grid-x.grid-margin-x");
         if (!_DOM.length) reject("Cannot DOM sillage step 2");
 
         const res = {} as PerfumeGender;

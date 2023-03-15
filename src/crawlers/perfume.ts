@@ -49,9 +49,9 @@ export const perfumeDetailsCrawler = async (): Promise<void> => {
             await accordsCrawler(page, perfume);
             await notesCrawler(page, perfume);
             await perfumeWeatherCrawler(page, perfume);
-            await perfumeLongevityCrawler(page, perfume);
-            await perfumeSillageCrawler(page, perfume);
-            await perfumeGenderCrawler(page, perfume);
+            const i = await perfumeLongevityCrawler(page, perfume);
+            await perfumeSillageCrawler(page, perfume, i);
+            await perfumeGenderCrawler(page, perfume, i);
             console.log("\n");
             resolve();
         } catch (err) {

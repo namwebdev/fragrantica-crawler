@@ -28,28 +28,24 @@ export const perfumeWeatherCrawler = (
             const _wea = await DOM.$$(".voting-small-chart-size");
             if (!_wea?.length) reject("Cannot DOM list weather");
 
-            let res = {} as PerfumeWeather;
+            const res = {} as PerfumeWeather;
             res.id = null;
             res.perfume = perfume;
             for (let i = 0; i < _wea.length; i++) {
                 const _DOM = await _wea[i].$("div > div[style*='opacity: 1;']");
                 if (!Validation.checkDOMCanEvaluate(_DOM)) {
-                    res = null;
-                    break;
+                    res[weatherType[i]] = "0";
+                    continue;
                 }
 
                 const style = await _DOM.evaluate(e => e.getAttribute("style"));
                 res[weatherType[i]] = getWeatherRate(style);
             }
-            if (res)
-                await AppDataSource.getRepository(PerfumeWeather).upsert(res, [
-                    "perfume",
-                ]);
-            console.log(
-                `Done Weather - perfume ${perfume.id} ${
-                    res ? "" : " - No weather"
-                }`,
-            );
+
+            await AppDataSource.getRepository(PerfumeWeather).upsert(res, [
+                "perfume",
+            ]);
+            console.log(`Done Weather - perfume ${perfume.id}`);
             resolve();
         } catch (error) {
             reject(error);
