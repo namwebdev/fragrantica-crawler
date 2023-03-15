@@ -31,7 +31,7 @@ AppDataSource.initialize()
         //         links = res.map(i => i["﻿link"]);
         //         cron.schedule("*/1 * * * *", () => crawl(links));
         //     });
-        cron.schedule("*/1 * * * *", () => perfumeDetailsCrawler());
+        cron.schedule("*/2 * * * *", () => perfumeDetailsCrawler());
         // perfumeDetailsCrawler();
     })
     .catch(error => console.log(error));
