@@ -5,10 +5,10 @@ import { Brand } from "./entities/Brand";
 
 export const crawl = async (links: string[]) => {
     let targetUrl = links[0];
-    const linkExist = (await AppDataSource.getRepository(Brand)
+    const linkExist = await AppDataSource.getRepository(Brand)
         .createQueryBuilder("brand")
         .select(["brand.source"])
-        .getMany()) as any;
+        .getMany();
     if (linkExist) {
         const existLinks = linkExist.map(i => i.source);
         for (const link of links) {
@@ -93,7 +93,7 @@ export const crawl = async (links: string[]) => {
                 const link = await perDOM.evaluate(el =>
                     el.getAttribute("href"),
                 );
-                perfume.link = link;
+                perfume.link = `https://www.fragrantica.com${link}`;
 
                 perDOM = await listPerfume[i].$("img:nth-of-type(1)");
                 const perfumeImg = await perDOM.evaluate(el =>

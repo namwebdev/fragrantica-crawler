@@ -20,18 +20,19 @@ AppDataSource.initialize()
         app.use(express.json());
         app.listen(port, () => console.log(`Now running on port ${port}\n`));
 
-        // const res = [];
-        // let links: string[] = [];
-        // fs.createReadStream("data.csv")
-        //     .pipe(csv({}))
-        //     .on("data", data => {
-        //         res.push(data);
-        //     })
-        //     .on("end", () => {
-        //         links = res.map(i => i["﻿link"]);
-        //         cron.schedule("*/1 * * * *", () => crawl(links));
-        //     });
-        cron.schedule("*/2 * * * *", () => perfumeDetailsCrawler());
-        // perfumeDetailsCrawler();
+        const res = [];
+        let links: string[] = [];
+        fs.createReadStream("data.csv")
+            .pipe(csv({}))
+            .on("data", data => {
+                res.push(data);
+            })
+            .on("end", () => {
+                links = res.map(i => i["﻿link"]);
+                cron.schedule("*/1 * * * *", () => crawl(links));
+                // crawl(links);
+            });
+        // cron.schedule("*/2 * * * *", () => perfumeDetailsCrawler());
+        // // perfumeDetailsCrawler();
     })
     .catch(error => console.log(error));
