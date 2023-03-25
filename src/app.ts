@@ -13,26 +13,35 @@ dotenv.config();
 const port = process.env.PORT || 5000;
 const app = express();
 
-AppDataSource.initialize()
-    .then(() => {
-        console.log("Connected to DB");
+init();
 
-        app.use(express.json());
-        app.listen(port, () => console.log(`Now running on port ${port}\n`));
+function init() {
+    const crawlHandler = () =>
+        cron.schedule("*/1 * * * *", () => perfumeDetailsCrawler());
 
-        const res = [];
-        let links: string[] = [];
-        fs.createReadStream("data.csv")
-            .pipe(csv({}))
-            .on("data", data => {
-                res.push(data);
-            })
-            .on("end", () => {
-                links = res.map(i => i["﻿link"]);
-                cron.schedule("*/1 * * * *", () => crawl(links));
-                // crawl(links);
-            });
-        // cron.schedule("*/2 * * * *", () => perfumeDetailsCrawler());
-        // // perfumeDetailsCrawler();
-    })
-    .catch(error => console.log(error));
+    connectDB(crawlHandler);
+}
+
+function connectDB(callback: () => void) {
+    let retry = 0;
+    AppDataSource.initialize()
+        .then(() => {
+            console.log("Connected to DB");
+
+            app.use(express.json());
+            app.listen(port, () =>
+                console.log(`Now running on port ${port}\n`),
+            );
+
+            callback();
+        })
+        .catch(e => {
+            if (retry === 3) {
+                console.error(e);
+                return
+            }
+            retry++;
+            console.log(`Try count: ${retry}`);
+            connectDB(callback);
+        });
+}

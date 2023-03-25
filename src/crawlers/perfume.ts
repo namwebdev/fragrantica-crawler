@@ -18,10 +18,7 @@ export const perfumeDetailsCrawler = async (): Promise<void> => {
         if (latestRecord && latestRecord?.perfume?.id)
             _perfumeId = latestRecord.perfume.id + 1;
 
-        const perfume = await AppDataSource.getRepository(Perfume).findOne({
-            where: { id: _perfumeId },
-        });
-        if (!perfume) throw Error(`Cannot get Perfume with id ${_perfumeId}`);
+        const perfume = await getPerfume(_perfumeId)
 
         const _link = perfume.link;
         if (!_link)
@@ -61,4 +58,12 @@ export const perfumeDetailsCrawler = async (): Promise<void> => {
             browser.close();
         }
     });
+};
+
+const getPerfume = async (id: number) => {
+    const perfume = await AppDataSource.getRepository(Perfume).findOne({
+        where: { id },
+    });
+    if (!perfume) return getPerfume(id + 1);
+    return perfume
 };
